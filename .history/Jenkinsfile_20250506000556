@@ -1,0 +1,22 @@
+1. Crea un archivo llamado Jenkinsfile:En tu sistema de archivos, ve al directorio raíz de tu repositorio de Git (donde están la carpeta .git y otros archivos de tu proyecto).Crea un nuevo archivo de texto y nómbralo exactamente Jenkinsfile (sin extensión de archivo).2. Pega el código del pipeline en el Jenkinsfile:Abre el archivo Jenkinsfile que acabas de crear con un editor de texto.Copia el código del immersive "Pipeline para Mostrar Cambios":pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Mostrar Último Commit') {
+            steps {
+                script {
+                    def commit = sh(
+                        script: 'git log -1 --pretty=format:"%H %s"',
+                        returnStdout: true
+                    ).trim()
+                    echo "Último commit: ${commit}"
+                }
+            }
+        }
+    }
+}
+Pega este código en el archivo Jenkinsfile y guarda el archivo.3. Configura tu job de Jenkins para usar el Jenkinsfile:Abre Jenkins en tu navegador.Ve a la configuración de tu job (el proyecto que quieres configurar).En la sección "Pipeline", cambia la opción "Definition" a "Pipeline script from SCM".En la sección "SCM", selecciona "Git" y configura la URL de tu repositorio y las credenciales (si es un repositorio privado).Asegúrate de que el campo "Script Path" tenga el valor "Jenkinsfile" (o la ruta al archivo si no está en la raíz del repositorio).Guarda la configuración del job.Ahora, cuando ejecutes tu job de Jenkins, leerá el pipeline desde el Jenkinsfile en tu repositorio y mostrará el último commit.

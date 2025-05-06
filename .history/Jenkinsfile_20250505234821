@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout SCM') {
+            steps {
+                checkout scm // Clona el repositorio configurado en el job
+            }
+        }
+        stage('Instalar dependencias') {
+            steps {
+                bat 'npm install'
+            }
+        }
+        stage('Ejecutar programa') {
+            steps {
+                bat 'node index.js'
+            }
+        }
+        stage('Ejecutar pruebas') {
+            steps {
+                bat 'npm test'
+            }
+        }
+    }
+}
