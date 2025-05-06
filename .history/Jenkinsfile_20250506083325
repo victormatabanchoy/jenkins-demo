@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') 
+            steps {
+                checkout scm
+            }
+        }
+        stage('Mostrar Último Commit') {
+            steps {
+                script {
+                    def commit = sh(
+                        script: 'git log -1 --pretty=format:"%H %s"',
+                        returnStdout: true
+                    ).trim()
+                    echo "Último commit: ${commit}"
+                }
+            }
+        }
+    }
+}
